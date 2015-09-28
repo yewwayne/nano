@@ -4,7 +4,7 @@
 #
 Name     : nano
 Version  : 2.4.2
-Release  : 13
+Release  : 14
 URL      : http://www.nano-editor.org/dist/v2.4/nano-2.4.2.tar.gz
 Source0  : http://www.nano-editor.org/dist/v2.4/nano-2.4.2.tar.gz
 Summary  : No detailed summary available
