@@ -1,4 +1,186 @@
-GNU nano 2.5.0 - 2016.01.11
+GNU nano 2.5.2 - 2016.02.12
+
+2016-02-11  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (do_linter): Go to the next item in the list before
+	freeing the current one.  This fixes Savannah bug #46796.
+	* src/text.c (do_formatter): Don't leave curses mode, as that would
+	hide any error messages upon reentry.  And if there are any messages,
+	allow the user a little time to read them.
+	* src/text.c (do_linter, do_formatter): Condense some declarations,
+	rewrap some lines, and improve a few comments.
+	* doc/syntax/go.nanorc: Make the formatter command more visible.
+
+2016-02-10  Benno Schulenberg  <bensberg@justemail.net>
+	* src/text.c (discard_until): Prevent a chain of editing actions from
+	continuing after a discard.  This fixes Savannah bug #47104.
+	* src/files.c (get_full_path): Plug a sneaky memory leak.  This fixes
+	Savannah bug #47003 reported and solved by Mike Frysinger.
+	* src/rcfile.c (parse_binding): Allow only control sequences in the
+	proper range to be rebound.  This fixes Savannah bug #47025.
+	* THANKS: Add a Spanish, a Catalan, and a Croat translator.
+	* AUTHORS, THANKS: Remove SVN Id tags and a duplication.
+	* src/winio.c (get_kbinput), src/nano.c (main): Switch the cursor on
+	in the right place: in the central input routine.
+	* src/files.c (load_poshistory): Free any records that are dropped.
+	This fixes Savannah bug #47111 reported by Mike Frysinger.
+
+2016-02-09  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (stat_with_alloc, open_buffer, write_file): Check the
+	result of a stat() to avoid referencing unitialized data.  Original
+	patch was by Kamil Dudka.
+	* doc/man/{nano.1,rnano.1,nanorc.5}: Adjust version for release.
+
+2016-02-07  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (update_poshistory): Don't put files in the history list
+	when they have the default cursor position (line 1, column 1).
+	* src/files.c (write_file): Avoid a pointless lstat() when not writing
+	to a temp file, and in the bargain elide two variables.
+	* src/files.c (write_file): Elide an unneeded 'if'.
+	* doc/syntax/c.nanorc: Use a character class instead of a literal tab
+	and space.  The change was inspired by David Niklas.
+	* src/prompt.c (do_yesno_prompt): Normalize the indentation.
+	* src/prompt.c (do_yesno_prompt): Rename a variable.
+
+2016-02-06  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (write_file): Remove the --nofollow option that hasn't
+	been working for a dozen years.
+	* src/winio.c (statusbar): Update the screen immediately whenever a
+	message has been posted on the status bar.
+	* src/winio.c (statusbar), src/nano.c (do_input): Turn the cursor off
+	when writing in the status bar, and on when waiting for	input.
+	* src/prompt.c (update_the_statusbar): Chop two parameters that are
+	always the same, and that are global variables anyway.
+	* src/prompt.c (update_bar_if_needed): Rename this for more contrast.
+	* src/prompt.c (do_statusbar_backspace): Avoid updating the bar twice.
+	* src/cut.c, src/files.c, src/prompt.c: Rewrap some lines and remove
+	some useless comments.
+
+2016-02-05  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/texinfo/nano.texi: Condense the descriptions of command-key
+	sequences and of the screen layout, mention how to enter Unicode,
+	and mention that regular expressions are line oriented.
+	* src/global.c (shortcut_init): Put four strings in standard order.
+	* src/text.c (do_undo), src/global.c (shortcut_init): Guide the
+	translators a little bit.
+
+2016-01-31  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (has_valid_path): Be more specific in how a given path
+	is invalid.  The change was improved by Rishabh Dave.
+	* doc/syntax/nanorc.nanorc: Show ^^ and M-^ as valid key names.
+	* src/prompt.c (do_statusbar_home): Make Home go always fully home.
+
+2016-01-29  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (do_insertfile): Do display the buffer when configured
+	with only --disable-histories.  This fixes Savannah bug #47011.
+	* src/nano.c (main): Check position history only when 'positionlog'
+	is set.  This fixes a bug unconsciously reported by Mike Frysinger.
+	* src/files.c (do_lockfile): Plug a couple of memory leaks.
+	* src/files.c (update_poshistory): Plug another memory leak.
+	* src/files.c (close_buffer): Update position history only when
+	the option 'positionlog' is set.
+
+2016-01-26  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (update_poshistory): Do not add directories to the
+	list of file positions.  This fixes Savannah bug #46971.
+	* src/*.c: Adjust some indentation and some line wrapping.
+	* src/prompt.c (do_statusbar_prev_word): When in the middle of a
+	word, jump to the start of the current word, not to the start of
+	the preceding one.  This fixes Savannah bug #46970.
+	* src/prompt.c (do_statusbar_next_word): Use simpler algorithm.
+
+2016-01-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (update_poshistory): Handle an update of the first
+	element correctly.
+	* doc/texinfo/nano.texi: Document the --enable-altrcname option.
+	The lack of this was pointed out by Frank.
+	* doc/man/nano.1, doc/man/nanorc.5, doc/texinfo/nano.texi: Mention
+	that the position history is limited to the 200 most recent files.
+
+2016-01-24  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (update_poshistory): Move an updated item to the end
+	of the list, so that it won't be dropped any time soon.  The problem
+	was pointed out by David Niklas.
+	* src/winio.c (edit_redraw): Condense by removing a triplication.
+	* src/prompt.c (do_statusbar_prev_word, do_statusbar_next_word):
+	Chop an always-FALSE parameter and delete an unused return value.
+	* src/prompt.c (do_prompt): Remove a superfluous free.
+	* src/prompt.c (update_the_bar): Bundle some statements.
+	* src/prompt.c (need_statusbar_update): Elide this function.
+	* src/prompt.c (total_statusbar_refresh): Elide this function too.
+
+2016-01-22  Benno Schulenberg  <bensberg@justemail.net>
+	* src/utils.c (get_homedir): Don't use $HOME when we're root, because
+	some sudos don't filter it out of the environment (which can lead to
+	a root-owned .nano/ directory in the invoking user's home directory).
+	It fixes https://bugs.launchpad.net/ubuntu/+source/nano/+bug/1471459.
+	* src/files.c (read_line): Rename a variable for clarity and contrast.
+
+2016-01-21  Benno Schulenberg  <bensberg@justemail.net>
+	* src/prompt.c (get_prompt_string): Preserve the cursor position on
+	the statusbar when just toggling a setting or making an excursion to
+	the file browser.  This fixes Savannah bug #46945.
+	* src/prompt.c (do_prompt_abort): Remove this unneeded function, as
+	nothing can break out of do_prompt(), not a SIGWINCH either.
+	* src/prompt.c (get_prompt_string): Delete code that is dead now.
+	* src/prompt.c (get_prompt_string): Elide an unneeded variable.
+	* src/browser.c (do_browser): Delete unneeded blanking of a variable.
+
+2016-01-20  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (open_buffer): Readjust the indentation and a comment.
+	* src/files.c (has_valid_path): Get rid of a global variable.
+
+2016-01-20  Rishabh Dave  <rishabhddave@gmail.com>
+	* src/files.c (verify_path, open_buffer): When opening a new buffer,
+	verify that the containing directory of the given filename exists.
+	This fixes Savannah bug #44950.
+	* src/files.c (do_lockfile): Remove the existence check on the
+	directory, as this is now covered by verify_path().
+
+2016-01-17  Benno Schulenberg  <bensberg@justemail.net>
+	* src/global.c: Fix typo in #ifndef symbol.  Reported by Frank.
+	* doc/syntax/nanorc.nanorc: Remove '+' as only one menu is allowed.
+	* src/files.c (load_poshistory): Limit the number of loaded items.
+
+2016-01-17  Mike Frysinger  <vapier@gentoo.org>
+	* doc/syntax/nanorc.nanorc: Allow inline comments with key bindings.
+
+2016-01-15  Benno Schulenberg  <bensberg@justemail.net>
+	* src/winio.c (set_modified): Plug another memory leak.
+	* src/files.c (set_modified): Move this function to its habitat.
+	* src/files.c (open_file): Return the fantastic file descriptor
+	when opening a non-existent file for reading succeeds.
+	* src/nano.c (delete_opennode), src/text.c (discard_until):
+	Free the items on the undo stack when a buffer is closed.
+	This fixes Savannah bug #46904 reported by Mike Frysinger.
+
+2016-01-15  Mike Frysinger  <vapier@gentoo.org>
+	* src/files.c (open_file): Free the full filename in all cases.
+
+2016-01-14  Benno Schulenberg  <bensberg@justemail.net>
+	* doc/nanorc.sample.in: Remove a reference to an obsolete file.
+	Reported by Mike Frysinger.
+	* src/winio.c (edit_redraw): Delete an 'if' that is always FALSE.
+	* src/winio.c (edit_redraw): Elide an unneeded variable and adjust
+	some wrappings and whitespace.
+	* src/proto.h: Delete two duplicate declarations.
+	* src/rcfile.c (check_bad_binding): Elide this unneeded function.
+	* src/rcfile.c (parse_binding): Show key only when it was rebound.
+
+2016-01-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (save_poshistory): Reduce the indentation.
+	* src/*.c: Adjust a few comments and rewrap some lines.
+
+2016-01-12  Benno Schulenberg  <bensberg@justemail.net>
+	* NEWS: Fix some typos and whitespace, and normalize the dates.
+	* src/files.c (load_poshistory): Rename a variable.
+	* src/files.c (load_poshistory): Remove some code duplication.
+	* src/files.c (save_poshistory, update_poshistory, check_poshistory,
+	load_poshistory): Differentiate variable name from function names.
+	* src/files.c (load_poshistory): Remove a senseless iteration.
+	* src/files.c (load_poshistory): Condense the reading of a line.
+	* src/files.c (load_poshistory): Reduce the indentation.
+
+GNU nano 2.5.1 - 2016.01.11
 
 2016-01-10  Benno Schulenberg  <bensberg@justemail.net>
 	* NEWS: Add item for upcoming 2.5.1.
@@ -53,7 +235,7 @@ GNU nano 2.5.0 - 2016.01.11
 2015-12-31  Benno Schulenberg  <bensberg@justemail.net>
 	* src/text.c (do_formatter): Restore the cursor position differently.
 	* src/search.c (do_gotopos): Delete this now unused function.
-	* src/search.c (do_gotolinecolumn): Chop an always FALSE parameter.
+	* src/search.c (do_gotolinecolumn): Chop an always-FALSE parameter.
 	* src/search.c (do_gotolinecolumn): Chop a duplicate parameter --
 	'allow_update' always has the same value as 'interactive'.
 
