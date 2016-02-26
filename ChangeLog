@@ -1,3 +1,99 @@
+GNU nano 2.5.3 - 2016.02.25
+
+2016-02-25  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (do_browser): Plug a memory leak by not copying
+	a string twice.  This fixes Savannah bug #47206.
+	* src/browser.c (do_browser): Now put things in the proper order.
+	* src/files.c (make_new_buffer), src/nano.c (splice_opennode): Elide
+	the latter function, by handling the two cases (the creation of the
+	first element, and the insertion of a new element) directly.
+
+2016-02-23  Benno Schulenberg  <bensberg@justemail.net>
+	* src/prompt.c (do_statusbar_output, do_statusbar_delete):
+	Rename a variable, for contrast and correctness.
+	* src/cut.c (do_copy_text): Don't move the cursor when copying a
+	backwardly marked region.  This fixes Savannah bug #46980.
+	* src/text.c (do_undo, do_redo): Center the cursor when the
+	thing being undone or redone is currently off the screen.
+	* src/{files,nano,winio}.c: Rewrap and reshuffle some lines.
+
+2016-02-22  Chris Allegretta  <chrisa@asty.org>
+	* Add the ability to kill the trailing spaces when justifying text,
+	by adding a new nanorc option 'justifytrim' -- we'll see
+	whether this warrants a command-line flag or not.  Now with slightly
+	better logic for multi-spaced lines.
+
+2016-02-22  Benno Schulenberg  <bensberg@justemail.net>
+	* src/nano.c (free_openfilestruct): Elide this function.
+	* scr/global.c (thanks_for_all_the_fish, free_list_item): Condense.
+	* src/winio.c (edit_scroll): The amount to scroll is never zero.
+	* src/prompt.c (do_statusbar_prev_word, do_statusbar_next_word),
+	src/move.c (do_prev_word, do_next_word): Sort these in standard way.
+	* src/prompt.c (do_statusbar_output): Don't move too many bytes.
+	This fixes Savannah bug #47219 (uncovered by r5655).
+	* src/prompt.c (do_statusbar_output): Elide a variable.
+	* src/prompt.c (do_statusbar_delete): There is no need for nulling:
+	the charmove() already copies the terminating null byte.
+	* src/text.c (do_justify), src/winio.c (parse_escape_sequence):
+	Show the cursor after a justification and after an unrecognized
+	escape sequence, and in the edit window when linting.
+	* src/text.c (do_linter): Use the correct column number, also when
+	messages are skipped.  And don't mind zero or negative numbers.
+	This is a partial fix for Savannah bug #47131.
+
+2016-02-21  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (input_tab): If the first Tab added the part that all
+	matches have in common, don't require a third Tab to show the list.
+	* scr/global.c (thanks_for_all_the_fish): Remove unneeded checks.
+
+2016-02-20  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (get_history_completion): Avoid leaking memory
+	when tabbing on a string that does not occur in the history.
+	This fixes Savannah bug #47124 reported by Mike Frysinger.
+	* src/files.c (input_tab): Parse a character in the correct
+	buffer.  This fixes Savannah bug #47199.
+	* src/prompt.c (do_statusbar_output): Reduce an allocation to what
+	is actually needed.  This undoes the papering-over of above bug.
+
+2016-02-18  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_replace_loop), src/text.c (do_int_spell_fix),
+	src/winio.c (edit_refresh): Fix Savannah bug #47127 the proper way.
+	* src/nano.c (free_filestruct): Allow the parameter to be NULL.
+	* src/search.c (search_init): Delete a debugging leftover.
+
+2016-02-16  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (initialize_buffer_text): Delete redundant assignment.
+
+2016-02-15  Benno Schulenberg  <bensberg@justemail.net>
+	* src/files.c (read_file): Free not just the struct but also the
+	data it contains, and also when it is the first and only line.
+	This fixes Savannah bug #47153 reported by Mike Frysinger.
+	* src/files.c (get_full_path): Avoid losing a buffer when getcwd()
+	fails. 	This fixes Savannah bug #47129 reported by Mike Frysinger.
+
+2016-02-14  Benno Schulenberg  <bensberg@justemail.net>
+	* src/search.c (do_replace_loop): Make iterating through replacement
+	matches behave again like iterating through search matches: showing
+	them centered when found offscreen.  This fixes Savannah bug #47127.
+	* src/text.c (do_int_spell_fix): Restore the above behavior also for
+	the internal spell fixer.
+	* src/prompt.c (do_statusbar_input, do_statusbar_verbatim_input,
+	do_statusbar_output): Do the copying from input to output just once.
+	* src/prompt.c (do_statusbar_output): Rename and condense some stuff,
+	and correct the main comment: filtering means allow_cntrls==FALSE.
+	* README, TODO, doc/man/{nano.1,rnano.1,nanorc.5}: Say that 2.5.x
+	is a "rolling" release, lock files are done, and prepare for 2.5.3.
+
+2016-02-13  Benno Schulenberg  <bensberg@justemail.net>
+	* src/browser.c (do_browser, browser_refresh): Rebuild the file list
+	only when necessary, not for each and every cursor movement.  This
+	fixes Savannah bug #47133.
+	* src/files.c (save_poshistory): Allocate enough space for printing
+	out the line and column numbers.  This fixes Savannah bug #47135.
+	* src/*.c: Switch the cursor on and off at the appropriate moments,
+	so that it no longer shows in the help screen nor in the file list.
+	This fixes Savannah bug #47126.
+
 GNU nano 2.5.2 - 2016.02.12
 
 2016-02-11  Benno Schulenberg  <bensberg@justemail.net>
@@ -148,7 +244,7 @@ GNU nano 2.5.2 - 2016.02.12
 	* src/winio.c (set_modified): Plug another memory leak.
 	* src/files.c (set_modified): Move this function to its habitat.
 	* src/files.c (open_file): Return the fantastic file descriptor
-	when opening a non-existent file for reading succeeds.
+	when the opening of a non-existent file for reading succeeds.
 	* src/nano.c (delete_opennode), src/text.c (discard_until):
 	Free the items on the undo stack when a buffer is closed.
 	This fixes Savannah bug #46904 reported by Mike Frysinger.
@@ -317,7 +413,7 @@ GNU nano 2.5.1 - 2016.01.11
 
 GNU nano 2.5.0 - 2015.12.05
 
-2015-12-05  Chris Allegretta <chrisa@asty.org>
+2015-12-05  Chris Allegretta  <chrisa@asty.org>
 	* src/nano.c (main): key_defined() is an ncurses-ism.  Add better
 	checks for this.
 
@@ -1123,7 +1219,7 @@ GNU nano 2.4.1 - 2015.04.14
 	possible bailout because of a zero-sized region.
 	* NEWS: Option --noread allows writing, not reading, to named pipes.
 
-2015-03-22  Chris Allegretta <chrisa@asty.org>
+2015-03-22  Chris Allegretta  <chrisa@asty.org>
 	* src/text.c (do_alt_speller): timestamp can just be a time_t.
 	Fixes compilation on win32 and macOS.
 
@@ -1193,7 +1289,7 @@ GNU nano 2.4.0 - 2015.03.22
 
 GNU nano 2.3.99pre3 - 2015.02.27
 
-2015-02-25  Chris Allegretta <chrisa@asty.org>
+2015-02-25  Chris Allegretta  <chrisa@asty.org>
 	* src/rcfile.c (parse_binding): Add an exception for do_toggle() as
 	rebinding toggles broke with r5022.  (Fixed in r5134.)
 
@@ -1212,7 +1308,7 @@ GNU nano 2.3.99pre3 - 2015.02.27
 	when finding a lock file, for when many files are opened at once.
 	* src/file.c (do_lockfile): The user does the editing, not the editor.
 
-2015-02-09  Chris Allegretta <chrisa@asty.org>
+2015-02-09  Chris Allegretta  <chrisa@asty.org>
 	* nano.spec.in: Add dependency on texinfo, docdir files for
 	RPM file creation.
 
@@ -1238,14 +1334,14 @@ GNU nano 2.3.99pre2 - 2015.02.06
 	* src/nano.c (version), src/winio.c (do_credits): Update the copyright
 	years to include 2015.
 
-2015-01-13  Chris Allegretta <chrisa@asty.org>
+2015-01-13  Chris Allegretta  <chrisa@asty.org>
 	* src/files.c (open_buffer): Check here for locking and properly
 	handle choosing to not open a file when locked instead of in
 	open_file().  Fixes Savannah bug #42373 reported by Benno Schulenberg.
 
 GNU nano 2.3.99pre1 - 2015.01.06
 
-2015-01-03  Chris Allegretta <chrisa@asty.org>
+2015-01-03  Chris Allegretta  <chrisa@asty.org>
 	* New formatter code to support syntaxes like
 	go which have tools to automatically lint and reformat the text for
 	you (gofmt), which is lovely.  rcfile option formatter, function
@@ -1368,13 +1464,13 @@ GNU nano 2.3.6 - 2014.07.17
 
 GNU nano 2.3.5 - 2014.07.11
 
-2014-07-11  Chris Allegretta <chrisa@asty.org>
+2014-07-11  Chris Allegretta  <chrisa@asty.org>
 	* src/files.c (do_lockfile, open_file): If locking fails,
 	allow the lock failure message to be preserved AND
 	preserve the filename passed on the cmdline.  Fixes
 	Savannah bug #42668.
 
-2014-07-02  Chris Allegretta <chrisa@asty.org>
+2014-07-02  Chris Allegretta  <chrisa@asty.org>
 	* src/files.c (do_lockfile): Check whether the directory
 	of the file we're trying to lock exists, and make the
 	resulting error message more intuitive.  Fixes
@@ -1699,7 +1795,7 @@ GNU nano 2.3.5 - 2014.07.11
 
 GNU nano 2.3.4 - 2014.06.02
 
-2014-06-02  Chris Allegretta <chrisa@asty.org>
+2014-06-02  Chris Allegretta  <chrisa@asty.org>
 	* doc/syntax/default.nanorc: Can't do trailing spaces in the
 	  default syntax or it will hilight the spaces as you type them
 	  into a new file, which for non-programming is infuriating.
@@ -1708,14 +1804,14 @@ GNU nano 2.3.4 - 2014.06.02
 	* src/text.c (do_delete): For the undo structure, differentiate
 	between deleting a newline and any other character.
 
-2014-05-29  Chris Allegretta <chrisa@asty.org>
+2014-05-29  Chris Allegretta  <chrisa@asty.org>
 	* src/chars.c (addstrings): This function needs to be available even
 	  on non-utf-8 systems.
 	* nano-regress: Added --disable-utf8 to regression check.
 
 GNU nano 2.3.3 - 2014.05.29
 
-2014-05-28  Chris Allegretta <chrisa@asty.org>
+2014-05-28  Chris Allegretta  <chrisa@asty.org>
 	* doc/syntax/mutt.nanorc: Include Benno's awesome signature
 	  matcher, modified slightly to also work for quoted sigs.
 	* doc/syntax/default.nanorc: Be far more gentle with something
@@ -1743,7 +1839,7 @@ GNU nano 2.3.3 - 2014.05.29
 	* src/global.c (shortcut_init): Standardize the add_to_funcs() calls,
 	breaking always between the menus and the tag.
 
-2014-05-27  Chris Allegretta <chrisa@asty.org>
+2014-05-27  Chris Allegretta  <chrisa@asty.org>
 	* src/winio.c (edit_refresh): wredrawln() is not supported under
 	  slang.
 
@@ -1870,7 +1966,7 @@ GNU nano 2.3.3 - 2014.05.29
 	* src/rcfile.c: Move parse_magic_exp() next to its sister.
 	* src/color.c (color_update): Rename a variable, and elide another.
 
-2014-05-10 Chris Allegretta <chrisa@asty.org>
+2014-05-10  Chris Allegretta  <chrisa@asty.org>
 	* src/rcfile.c (parse_color_names): Redefine false and true to
 	  their appropriate macro names so --with-slang works (slangv2 anyway).
 	* src/text.c (do_linter): Care about whether user cancelled the file
@@ -2212,7 +2308,7 @@ GNU nano 2.3.3 - 2014.05.29
 	* src/search.c (search_init): Silence a compiler warning about a
 	variable possibly being used uninitialized.
 
-2014-03-31 Chris Allegretta <chrisa@asty.org>
+2014-03-31  Chris Allegretta  <chrisa@asty.org>
 	* doc/syntax/go.nanorc: New file, basic go syntax highlighting.
 
 2014-03-30  Benno Schulenberg  <bensberg@justemail.net>
@@ -2340,7 +2436,7 @@ GNU nano 2.3.3 - 2014.05.29
 	* src/move.c (do_down): Initialize the correct variable to zero.
 	Solves jumpy scrolling behaviour reported by Chris Allegretta.
 
-2014-03-04 Chris Allegretta <chrisa@asty.org>
+2014-03-04  Chris Allegretta  <chrisa@asty.org>
 	* global.c (first_sc_for): Return raw keystrokes last, so
 	  they will not be displayed if there are F-keys or Meta keys
 	  mapped for an item in the shortcut list.
@@ -2357,7 +2453,7 @@ GNU nano 2.3.3 - 2014.05.29
 	Remove erroneous 'suspendenable' -- it is not a settable option
 	but a bindable function.
 
-2014-03-03 Chris Allegretta <chrisa@asty.org>
+2014-03-03  Chris Allegretta  <chrisa@asty.org>
 	* global.c (shortcut_init): Don't actually free the shortcut
 	  list, since the next pass via justifying will then remove all
 	  custom shortcuts.  Fixes bug discovered by Benno Schulenberg.
@@ -2378,7 +2474,7 @@ GNU nano 2.3.3 - 2014.05.29
 	to the texinfo documentation, and improve alphabetization a bit.
 	* src/nano.c (usage): Don't mention --softwrap in tiny version.
 
-2014-03-01 Chris Allegretta <chrisa@asty.org>
+2014-03-01  Chris Allegretta  <chrisa@asty.org>
 	* global.c (shortcut_init): Fix an issue with the split
 	  do_research() setup when using --enable-tiny.
 	* rcfile.c (parse_linter): Allow linter to be unset using "".
@@ -2474,7 +2570,7 @@ GNU nano 2.3.3 - 2014.05.29
 	nano-devel in August 2010: after typing ^R ^T ^W ^G ^X, the file
 	being edited would get displayed instead of the list of files.
 
-2014-02-24 Chris Allegretta <chrisa@asty.org>
+2014-02-24  Chris Allegretta  <chrisa@asty.org>
 	* New linter functionality, rcfile option "linter".
 	* src/global.c (shortcut_init): Actually free the sclist
 	  if it was allocated before.
@@ -2529,7 +2625,7 @@ GNU nano 2.3.3 - 2014.05.29
 2014-02-22  David Lawrence Ramsey  <pooka109@gmail.com>
 	* ChangeLog, NEWS, doc/faq.html: Fix typos, wording, and spacing.
 
-2014-01-25 Chris Allegretta <chrisa@asty.org>
+2014-01-25  Chris Allegretta  <chrisa@asty.org>
 	* src/winio.c (set_modified): Check for a filename before trying to lock.
 
 2014-01-24  Benno Schulenberg  <bensberg@justemail.net>
@@ -2538,12 +2634,12 @@ GNU nano 2.3.3 - 2014.05.29
 	  Savannah patch #8180 and fixes the segfault reported on the list:
 	  https://lists.gnu.org/archive/html/nano-devel/2012-07/msg00000.html.
 
-2014-01-01 Chris Allegretta <chrisa@asty.org>
+2014-01-01  Chris Allegretta  <chrisa@asty.org>
 	* doc/texinfo/nano.texi: Change '@sp4' since makeinfo 5.1 hates the
 	  lack of spacing.  Fixes bug #40103 reported by flapane@Savannah.
 	  Also change SVN status to non-binary so diffs work.
 
-2014-01-01 Chris Allegretta <chrisa@asty.org>
+2014-01-01  Chris Allegretta  <chrisa@asty.org>
 	* src/global.c (strtokeytype): Check for lower-case 'f' for defining F-key
 	  sequences for consistency (previously was two checks for upper case 'F').
 	  Fixes bug #40815 reported by David Binderman <dcb314@Savannah>.
