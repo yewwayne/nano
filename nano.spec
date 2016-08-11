@@ -4,7 +4,7 @@
 #
 Name     : nano
 Version  : 2.5.3
-Release  : 23
+Release  : 24
 URL      : http://www.nano-editor.org/dist/v2.5/nano-2.5.3.tar.gz
 Source0  : http://www.nano-editor.org/dist/v2.5/nano-2.5.3.tar.gz
 Summary  : No detailed summary available
