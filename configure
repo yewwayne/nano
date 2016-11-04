@@ -1,0 +1,7 @@
+--disable-extra
+--disable-libmagic
+--enable-tiny
+--disable-glibtest
+--disable-nls
+--disable-color
+
