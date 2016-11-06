@@ -4,7 +4,7 @@
 #
 Name     : nano
 Version  : 2.5.3
-Release  : 25
+Release  : 26
 URL      : http://www.nano-editor.org/dist/v2.5/nano-2.5.3.tar.gz
 Source0  : http://www.nano-editor.org/dist/v2.5/nano-2.5.3.tar.gz
 Summary  : No detailed summary available
@@ -62,6 +62,10 @@ doc components for the nano package.
 
 %build
 export LANG=C
+export CFLAGS="$CFLAGS -Os -ffunction-sections "
+export FCFLAGS="$CFLAGS -Os -ffunction-sections "
+export FFLAGS="$CFLAGS -Os -ffunction-sections "
+export CXXFLAGS="$CXXFLAGS -Os -ffunction-sections "
 %reconfigure --disable-static --disable-extra \
 --disable-libmagic \
 --enable-tiny \
