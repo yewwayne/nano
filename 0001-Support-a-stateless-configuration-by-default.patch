@@ -1,44 +1,51 @@
-From 0bd5c0868a57ba509bdc999e17151eacf9376aa7 Mon Sep 17 00:00:00 2001
+From d7b113ad558e83053377b83d1c631db82751aff9 Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <michael.i.doherty@intel.com>
-Date: Fri, 19 Jun 2015 11:19:59 +0100
-Subject: [PATCH] Use a stateless configuration with some sensible usability
- defaults
+Date: Mon, 15 May 2017 16:41:32 +0100
+Subject: [PATCH] Support a stateless configuration by default
+
+When the /etc/nanorc file exists, it will be loaded upon startup. In the
+absence of this file we'll load the vendor file from /usr/share/defaults,
+in "nano/nanorc". This provides some sane out of the box defaults and is
+free from update issues, as it falls into the domain of the vendor, and
+not the local administrator.
 
 Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
 ---
  Makefile.am     |   2 +-
  src/Makefile.am |   6 +-
  src/nanorc      | 324 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- src/rcfile.c    |  14 ++-
- 4 files changed, 342 insertions(+), 4 deletions(-)
+ src/rcfile.c    |   6 +-
+ 4 files changed, 335 insertions(+), 3 deletions(-)
  create mode 100644 src/nanorc
 
 diff --git a/Makefile.am b/Makefile.am
-index af890cc..f077bbc 100644
+index 1971a11..bb552ca 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -3,6 +3,6 @@ AUTOMAKE_OPTIONS = gnu no-dependencies
+@@ -7,6 +7,6 @@ SUBDIRS += syntax
+ endif
  
- SUBDIRS = doc m4 po src
- 
--EXTRA_DIST = ChangeLog.pre-2.1 README.SVN UPGRADE nano.spec
-+EXTRA_DIST = ChangeLog.pre-2.1 README.SVN UPGRADE nano.spec src/nanorc
+ EXTRA_DIST = ChangeLog.1999-2006 ChangeLog.2007-2015 \
+-		IMPROVEMENTS README.GIT nano.spec
++		IMPROVEMENTS README.GIT nano.spec src/nanorc
  
  ACLOCAL_AMFLAGS = -I m4
 diff --git a/src/Makefile.am b/src/Makefile.am
-index df65845..6fcf29e 100644
+index bada082..ae6278e 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -1,4 +1,8 @@
--AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\"
-+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\" -DDEFAULTSDIR=\"$(datadir)/defaults/nano\"
-+
+@@ -1,6 +1,10 @@
+-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\" \
++AM_CPPFLAGS = -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\" \
+ 	-I$(top_builddir)/lib -I$(top_srcdir)/lib
+ 
 +defaultsdir = $(datadir)/defaults/nano
 +defaults_DATA = \
 +		nanorc
++
+ CLEANFILES = revision.h
  
- bin_PROGRAMS = 	nano
- nano_SOURCES =	browser.c \
+ if BUILDING_FROM_GIT
 diff --git a/src/nanorc b/src/nanorc
 new file mode 100644
 index 0000000..ac066f6
@@ -370,43 +377,22 @@ index 0000000..ac066f6
 +## XML-type files
 +include "/usr/share/nano/xml.nanorc"
 diff --git a/src/rcfile.c b/src/rcfile.c
-index b6fb730..3d5cb17 100644
+index c8bb4e0..5f61436 100644
 --- a/src/rcfile.c
 +++ b/src/rcfile.c
-@@ -1365,7 +1365,7 @@ void parse_rcfile(FILE *rcstream
- }
- 
- /* The main rcfile function.  It tries to open the system-wide rcfile,
-- * followed by the current user's rcfile. */
-+ * or the defaults file in the /etc/ file absence., followed by the current user's rcfile. */
- void do_rcfile(void)
+@@ -1264,7 +1264,11 @@ void parse_one_nanorc(void)
+ /* First read the system-wide rcfile, then the user's rcfile. */
+ void do_rcfiles(void)
  {
-     struct stat rcinfo;
-@@ -1380,13 +1380,23 @@ void do_rcfile(void)
- 	    rcfile_error(S_ISDIR(rcinfo.st_mode) ?
- 		_("\"%s\" is a directory") :
- 		_("\"%s\" is a device file"), nanorc);
+-    nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
++    if (access(SYSCONFDIR "/nanorc", F_OK) == 0) {
++		nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 +    } else {
-+        nanorc = charealloc(nanorc, strlen(DEFAULTSDIR) + strlen("nanorc") + 2);
-+        sprintf(nanorc, "%s/nanorc", DEFAULTSDIR);
-+        if (stat(nanorc, &rcinfo) != -1) {
-+            if (S_ISDIR(rcinfo.st_mode) || S_ISCHR(rcinfo.st_mode) ||
-+                    S_ISBLK(rcinfo.st_mode))
-+                rcfile_error(S_ISDIR(rcinfo.st_mode) ?
-+                    _("\"%s\" is a directory") :
-+                    _("\"%s\" is a device file"), nanorc);
-+        }
-     }
++		nanorc = mallocstrcpy(nanorc, DATADIR "/defaults/nano/nanorc");
++    }
  
- #ifdef DEBUG
-     fprintf(stderr, "Parsing file \"%s\"\n", nanorc);
- #endif
- 
--    /* Try to open the system-wide nanorc. */
-+    /* Try to open the system-wide nanorc (or fallback default). */
-     rcstream = fopen(nanorc, "rb");
-     if (rcstream != NULL)
- 	parse_rcfile(rcstream
+     /* Process the system-wide nanorc. */
+     parse_one_nanorc();
 -- 
-1.9.1
+2.13.0
 
