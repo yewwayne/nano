@@ -6,7 +6,7 @@
 #
 Name     : nano
 Version  : 2.8.5
-Release  : 32
+Release  : 33
 URL      : https://www.nano-editor.org/dist/v2.8/nano-2.8.5.tar.xz
 Source0  : https://www.nano-editor.org/dist/v2.8/nano-2.8.5.tar.xz
 Source99 : https://www.nano-editor.org/dist/v2.8/nano-2.8.5.tar.xz.asc
@@ -67,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1498405687
+export SOURCE_DATE_EPOCH=1499203037
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
@@ -77,7 +77,8 @@ export CXXFLAGS="$CXXFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic
 --enable-tiny \
 --disable-glibtest \
 --disable-nls \
---disable-color
+--enable-nanorc \
+--enable-color
 make V=1  %{?_smp_mflags}
 
 %check
@@ -88,7 +89,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1498405687
+export SOURCE_DATE_EPOCH=1499203037
 rm -rf %{buildroot}
 %make_install
 
@@ -103,9 +104,54 @@ rm -rf %{buildroot}
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/nano/nanorc
+/usr/share/nano/asm.nanorc
+/usr/share/nano/autoconf.nanorc
+/usr/share/nano/awk.nanorc
+/usr/share/nano/c.nanorc
+/usr/share/nano/changelog.nanorc
+/usr/share/nano/cmake.nanorc
+/usr/share/nano/css.nanorc
+/usr/share/nano/debian.nanorc
+/usr/share/nano/default.nanorc
+/usr/share/nano/elisp.nanorc
+/usr/share/nano/fortran.nanorc
+/usr/share/nano/gentoo.nanorc
+/usr/share/nano/go.nanorc
+/usr/share/nano/groff.nanorc
+/usr/share/nano/guile.nanorc
+/usr/share/nano/html.nanorc
+/usr/share/nano/java.nanorc
+/usr/share/nano/javascript.nanorc
+/usr/share/nano/json.nanorc
+/usr/share/nano/lua.nanorc
+/usr/share/nano/makefile.nanorc
+/usr/share/nano/man.nanorc
+/usr/share/nano/mgp.nanorc
+/usr/share/nano/mutt.nanorc
+/usr/share/nano/nanohelp.nanorc
+/usr/share/nano/nanorc.nanorc
+/usr/share/nano/nftables.nanorc
+/usr/share/nano/objc.nanorc
+/usr/share/nano/ocaml.nanorc
+/usr/share/nano/patch.nanorc
+/usr/share/nano/perl.nanorc
+/usr/share/nano/php.nanorc
+/usr/share/nano/po.nanorc
+/usr/share/nano/postgresql.nanorc
+/usr/share/nano/pov.nanorc
+/usr/share/nano/python.nanorc
+/usr/share/nano/ruby.nanorc
+/usr/share/nano/rust.nanorc
+/usr/share/nano/sh.nanorc
+/usr/share/nano/spec.nanorc
+/usr/share/nano/tcl.nanorc
+/usr/share/nano/tex.nanorc
+/usr/share/nano/texinfo.nanorc
+/usr/share/nano/xml.nanorc
 
 %files doc
 %defattr(-,root,root,-)
 %doc /usr/share/doc/nano/*
 %doc /usr/share/info/*
 %doc /usr/share/man/man1/*
+%doc /usr/share/man/man5/*

@@ -7,4 +7,5 @@ Configure miss: whether NLS is requested
 Configure miss: whether to use NLS
 Configure miss: whether to use slang
 Configure miss: enhanced regular expression flag
+Configure miss: whether _XOPEN_SOURCE_EXTENDED is needed
 Configure miss: whether building from git
