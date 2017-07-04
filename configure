@@ -3,5 +3,5 @@
 --enable-tiny
 --disable-glibtest
 --disable-nls
---disable-color
-
+--enable-nanorc
+--enable-color
