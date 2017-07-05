@@ -1,7 +1,8 @@
+--disable-browser
 --disable-extra
+--disable-help
+--disable-histories
+--disable-justify
 --disable-libmagic
---enable-tiny
---disable-glibtest
 --disable-nls
---enable-nanorc
---enable-color
+--enable-utf8
