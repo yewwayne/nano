@@ -6,7 +6,7 @@
 #
 Name     : nano
 Version  : 2.8.6
-Release  : 35
+Release  : 36
 URL      : https://www.nano-editor.org/dist/v2.8/nano-2.8.6.tar.xz
 Source0  : https://www.nano-editor.org/dist/v2.8/nano-2.8.6.tar.xz
 Source99 : https://www.nano-editor.org/dist/v2.8/nano-2.8.6.tar.xz.asc
@@ -60,12 +60,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1500647674
+export SOURCE_DATE_EPOCH=1500647944
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export CXXFLAGS="$CXXFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
-%configure --disable-static --disable-browser \
+%reconfigure --disable-static --disable-browser \
 --disable-extra \
 --disable-help \
 --disable-histories \
@@ -83,7 +83,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1500647674
+export SOURCE_DATE_EPOCH=1500647944
 rm -rf %{buildroot}
 %make_install
 
