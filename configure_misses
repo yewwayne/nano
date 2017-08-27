@@ -1,4 +1,5 @@
 Configure miss: crtdefs.h
+Configure miss: xlocale.h
 Configure miss: whether wint_t is too small
 Configure miss: whether stdint.h predates C++11
 Configure miss: whether pthread_rwlock_rdlock prefers a writer to a reader
