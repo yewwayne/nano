@@ -6,7 +6,7 @@
 #
 Name     : nano
 Version  : 2.8.7
-Release  : 37
+Release  : 38
 URL      : https://www.nano-editor.org/dist/v2.8/nano-2.8.7.tar.xz
 Source0  : https://www.nano-editor.org/dist/v2.8/nano-2.8.7.tar.xz
 Source99 : https://www.nano-editor.org/dist/v2.8/nano-2.8.7.tar.xz.asc
