@@ -381,9 +381,9 @@ index c8bb4e0..5f61436 100644
 --- a/src/rcfile.c
 +++ b/src/rcfile.c
 @@ -1264,7 +1264,11 @@ void parse_one_nanorc(void)
- /* First read the system-wide rcfile, then the user's rcfile. */
- void do_rcfiles(void)
  {
+     const char *xdgconfdir;
+ 
 -    nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 +    if (access(SYSCONFDIR "/nanorc", F_OK) == 0) {
 +		nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
