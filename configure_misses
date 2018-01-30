@@ -1,9 +1,5 @@
 Configure miss: crtdefs.h
-Configure miss: xlocale.h
-Configure miss: whether wint_t is too small
-Configure miss: whether stdint.h predates C++11
 Configure miss: whether pthread_rwlock_rdlock prefers a writer to a reader
-Configure miss: whether the C locale is free of encoding errors
 Configure miss: whether NLS is requested
 Configure miss: whether to use NLS
 Configure miss: whether to use slang
