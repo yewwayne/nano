@@ -6,7 +6,7 @@
 #
 Name     : nano
 Version  : 2.9.3
-Release  : 44
+Release  : 45
 URL      : https://www.nano-editor.org/dist/v2.9/nano-2.9.3.tar.xz
 Source0  : https://www.nano-editor.org/dist/v2.9/nano-2.9.3.tar.xz
 Source99 : https://www.nano-editor.org/dist/v2.9/nano-2.9.3.tar.xz.asc
