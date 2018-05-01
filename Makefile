@@ -1,5 +1,5 @@
 PKG_NAME := nano
-URL = 
+URL = https://www.nano-editor.org/dist/v2.9/nano-2.9.6.tar.xz
 ARCHIVES = 
 
 include ../common/Makefile.common

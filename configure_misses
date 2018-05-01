@@ -1,5 +1,4 @@
 Configure miss: crtdefs.h
-Configure miss: GNU glob interface version 1
 Configure miss: whether pthread_rwlock_rdlock prefers a writer to a reader
 Configure miss: whether NLS is requested
 Configure miss: whether to use NLS

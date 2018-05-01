@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x0D28D4D2A0ACE884 (bensberg@telfort.nl)
 #
 Name     : nano
-Version  : 2.9.5
-Release  : 47
-URL      : https://www.nano-editor.org/dist/v2.9/nano-2.9.5.tar.xz
-Source0  : https://www.nano-editor.org/dist/v2.9/nano-2.9.5.tar.xz
-Source99 : https://www.nano-editor.org/dist/v2.9/nano-2.9.5.tar.xz.asc
+Version  : 2.9.6
+Release  : 48
+URL      : https://www.nano-editor.org/dist/v2.9/nano-2.9.6.tar.xz
+Source0  : https://www.nano-editor.org/dist/v2.9/nano-2.9.6.tar.xz
+Source99 : https://www.nano-editor.org/dist/v2.9/nano-2.9.6.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GFDL-1.2 GPL-3.0 GPL-3.0+
@@ -21,7 +21,6 @@ BuildRequires : pkgconfig(ncurses)
 BuildRequires : pkgconfig(ncursesw)
 BuildRequires : slang-dev
 Patch1: 0001-Support-a-stateless-configuration-by-default.patch
-Patch2: fix-compile.patch
 
 %description
 GNU nano is a small and friendly text editor.  It aims to emulate the
@@ -53,16 +52,15 @@ doc components for the nano package.
 
 
 %prep
-%setup -q -n nano-2.9.5
+%setup -q -n nano-2.9.6
 %patch1 -p1
-%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1524873524
+export SOURCE_DATE_EPOCH=1525215625
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
@@ -85,7 +83,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1524873524
+export SOURCE_DATE_EPOCH=1525215625
 rm -rf %{buildroot}
 %make_install
 
