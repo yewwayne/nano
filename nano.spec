@@ -6,7 +6,7 @@
 #
 Name     : nano
 Version  : 2.9.6
-Release  : 48
+Release  : 49
 URL      : https://www.nano-editor.org/dist/v2.9/nano-2.9.6.tar.xz
 Source0  : https://www.nano-editor.org/dist/v2.9/nano-2.9.6.tar.xz
 Source99 : https://www.nano-editor.org/dist/v2.9/nano-2.9.6.tar.xz.asc
