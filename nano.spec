@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x0D28D4D2A0ACE884 (bensberg@telfort.nl)
 #
 Name     : nano
-Version  : 3.0
-Release  : 52
-URL      : https://www.nano-editor.org/dist/v3/nano-3.0.tar.xz
-Source0  : https://www.nano-editor.org/dist/v3/nano-3.0.tar.xz
-Source99 : https://www.nano-editor.org/dist/v3/nano-3.0.tar.xz.asc
+Version  : 3.1
+Release  : 53
+URL      : https://www.nano-editor.org/dist/v3/nano-3.1.tar.xz
+Source0  : https://www.nano-editor.org/dist/v3/nano-3.1.tar.xz
+Source99 : https://www.nano-editor.org/dist/v3/nano-3.1.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GFDL-1.2 GPL-3.0 GPL-3.0+
@@ -31,9 +31,9 @@ Pico text editor while also offering several enhancements.
 %package bin
 Summary: bin components for the nano package.
 Group: Binaries
-Requires: nano-data
-Requires: nano-license
-Requires: nano-man
+Requires: nano-data = %{version}-%{release}
+Requires: nano-license = %{version}-%{release}
+Requires: nano-man = %{version}-%{release}
 
 %description bin
 bin components for the nano package.
@@ -50,7 +50,7 @@ data components for the nano package.
 %package doc
 Summary: doc components for the nano package.
 Group: Documentation
-Requires: nano-man
+Requires: nano-man = %{version}-%{release}
 
 %description doc
 doc components for the nano package.
@@ -73,7 +73,7 @@ man components for the nano package.
 
 
 %prep
-%setup -q -n nano-3.0
+%setup -q -n nano-3.1
 %patch1 -p1
 
 %build
@@ -81,7 +81,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536499410
+export SOURCE_DATE_EPOCH=1537367407
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
@@ -104,7 +104,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1536499410
+export SOURCE_DATE_EPOCH=1537367407
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/nano
 cp COPYING %{buildroot}/usr/share/doc/nano/COPYING
