@@ -5,18 +5,18 @@
 # Source0 file verified with key 0x0D28D4D2A0ACE884 (bensberg@telfort.nl)
 #
 Name     : nano
-Version  : 3.1
-Release  : 53
-URL      : https://www.nano-editor.org/dist/v3/nano-3.1.tar.xz
-Source0  : https://www.nano-editor.org/dist/v3/nano-3.1.tar.xz
-Source99 : https://www.nano-editor.org/dist/v3/nano-3.1.tar.xz.asc
+Version  : 3.2
+Release  : 54
+URL      : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz
+Source0  : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz
+Source99 : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GFDL-1.2 GPL-3.0 GPL-3.0+
-Requires: nano-bin
-Requires: nano-data
-Requires: nano-license
-Requires: nano-man
+Requires: nano-bin = %{version}-%{release}
+Requires: nano-data = %{version}-%{release}
+Requires: nano-license = %{version}-%{release}
+Requires: nano-man = %{version}-%{release}
 BuildRequires : glibc-locale
 BuildRequires : groff
 BuildRequires : pkgconfig(ncurses)
@@ -73,7 +73,7 @@ man components for the nano package.
 
 
 %prep
-%setup -q -n nano-3.1
+%setup -q -n nano-3.2
 %patch1 -p1
 
 %build
@@ -81,7 +81,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1537367407
+export SOURCE_DATE_EPOCH=1542039372
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
@@ -104,11 +104,11 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1537367407
+export SOURCE_DATE_EPOCH=1542039372
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/nano
-cp COPYING %{buildroot}/usr/share/doc/nano/COPYING
-cp COPYING.DOC %{buildroot}/usr/share/doc/nano/COPYING.DOC
+mkdir -p %{buildroot}/usr/share/package-licenses/nano
+cp COPYING %{buildroot}/usr/share/package-licenses/nano/COPYING
+cp COPYING.DOC %{buildroot}/usr/share/package-licenses/nano/COPYING.DOC
 %make_install
 
 %files
@@ -173,12 +173,12 @@ cp COPYING.DOC %{buildroot}/usr/share/doc/nano/COPYING.DOC
 %doc /usr/share/info/*
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/nano/COPYING
-/usr/share/doc/nano/COPYING.DOC
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/nano/COPYING
+/usr/share/package-licenses/nano/COPYING.DOC
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/nano.1
 /usr/share/man/man1/rnano.1
 /usr/share/man/man5/nanorc.5

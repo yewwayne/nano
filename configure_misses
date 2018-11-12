@@ -1,5 +1,6 @@
 Configure miss: crtdefs.h
 Configure miss: whether pthread_rwlock_rdlock prefers a writer to a reader
+Configure miss: whether strcasestr works
 Configure miss: whether NLS is requested
 Configure miss: whether to use NLS
 Configure miss: whether to use slang
