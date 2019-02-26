@@ -6,7 +6,7 @@
 #
 Name     : nano
 Version  : 3.2
-Release  : 54
+Release  : 55
 URL      : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz
 Source0  : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz
 Source99 : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz.asc
@@ -33,7 +33,6 @@ Summary: bin components for the nano package.
 Group: Binaries
 Requires: nano-data = %{version}-%{release}
 Requires: nano-license = %{version}-%{release}
-Requires: nano-man = %{version}-%{release}
 
 %description bin
 bin components for the nano package.
@@ -81,7 +80,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542039372
+export SOURCE_DATE_EPOCH=1551149895
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
@@ -104,7 +103,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1542039372
+export SOURCE_DATE_EPOCH=1551149895
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nano
 cp COPYING %{buildroot}/usr/share/package-licenses/nano/COPYING
