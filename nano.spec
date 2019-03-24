@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x0D28D4D2A0ACE884 (bensberg@telfort.nl)
 #
 Name     : nano
-Version  : 3.2
-Release  : 55
-URL      : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz
-Source0  : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz
-Source99 : https://www.nano-editor.org/dist/v3/nano-3.2.tar.xz.asc
+Version  : 4.0
+Release  : 56
+URL      : https://www.nano-editor.org/dist/v4/nano-4.0.tar.xz
+Source0  : https://www.nano-editor.org/dist/v4/nano-4.0.tar.xz
+Source99 : https://www.nano-editor.org/dist/v4/nano-4.0.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GFDL-1.2 GPL-3.0 GPL-3.0+
@@ -72,7 +72,7 @@ man components for the nano package.
 
 
 %prep
-%setup -q -n nano-3.2
+%setup -q -n nano-4.0
 %patch1 -p1
 
 %build
@@ -80,7 +80,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1551149895
+export SOURCE_DATE_EPOCH=1553438055
+export LDFLAGS="${LDFLAGS} -fno-lto"
 export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
@@ -103,7 +104,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1551149895
+export SOURCE_DATE_EPOCH=1553438055
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nano
 cp COPYING %{buildroot}/usr/share/package-licenses/nano/COPYING

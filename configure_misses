@@ -1,8 +1,10 @@
 Configure miss: crtdefs.h
+Configure miss: 32-bit host C ABI
 Configure miss: whether pthread_rwlock_rdlock prefers a writer to a reader
+Configure miss: working re_compile_pattern
 Configure miss: whether NLS is requested
 Configure miss: whether to use NLS
+Configure miss: whether building from git
 Configure miss: whether to use slang
 Configure miss: enhanced regular expression flag
 Configure miss: whether _XOPEN_SOURCE_EXTENDED is needed
-Configure miss: whether building from git
