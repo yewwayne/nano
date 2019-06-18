@@ -377,19 +377,18 @@ index 0000000..ac066f6
 +
 +## XML-type files
 +include "/usr/share/nano/xml.nanorc"
---- nano-3.0/src/rcfile.c~	2018-09-09 09:39:27.000000000 +0000
-+++ nano-3.0/src/rcfile.c	2018-09-09 13:16:33.655872202 +0000
-@@ -1223,7 +1223,12 @@
+--- nano-4.3/src/rcfile.c~	2019-06-18 08:08:13.000000000 +0000
++++ nano-4.3/src/rcfile.c	2019-06-18 13:02:51.088073489 +0000
+@@ -1304,7 +1304,11 @@
  	const char *xdgconfdir;
  
- 	/* First process the system-wide nanorc, if there is one. */
+ 	/* First process the system-wide nanorc, if it exists and is suitable. */
 -	nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 +        if (access(SYSCONFDIR "/nanorc", F_OK) == 0) {
 +                nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 +        } else {
 +                nanorc = mallocstrcpy(nanorc, DATADIR "/defaults/nano/nanorc");
 +        }
-+
- 	parse_one_nanorc();
+ 	if (is_good_file(nanorc))
+ 		parse_one_nanorc();
  
- 	/* When configured with --disable-wrapping-as-root, turn wrapping off
